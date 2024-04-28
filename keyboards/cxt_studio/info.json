@@ -53,7 +53,7 @@
             "riverflow": true
         },
         "default": {
-            "animation": "typing_heatmap"
+            "animation": "raindrops"
         },
         "driver": "ws2812",
         "layout": [
@@ -71,8 +71,7 @@
             {"flags": 4, "matrix": [2, 2], "x": 2, "y": 2},
             {"flags": 4, "matrix": [2, 1], "x": 1, "y": 2},
             {"flags": 4, "matrix": [2, 0], "x": 0, "y": 2}
-        ],
-        "led_flush_limit": 16
+        ]
     },
     "url": "",
     "usb": {

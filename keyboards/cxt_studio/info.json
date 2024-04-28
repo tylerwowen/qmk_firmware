@@ -33,9 +33,8 @@
     "rgb_matrix": {
         "animations": {
             "solid_color": true,
-            "alpha_mods": true,
             "breathing": true,
-            "colorband_sat": true,
+            "cycle_left_right": true,
             "flower_blooming": true,
             "raindrops": true,
             "jellybean_raindrops": true,

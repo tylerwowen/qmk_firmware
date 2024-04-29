@@ -26,7 +26,7 @@ enum keycodes {
 // 1st layer on the cycle
 #define LAYER_CYCLE_START 0
 // Last layer on the cycle
-#define LAYER_CYCLE_END 4
+#define LAYER_CYCLE_END 3
 
 // Add the behaviour of this new keycode
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -90,7 +90,7 @@ void paste_paste_all_finished(tap_dance_state_t *state, void *user_data) {
             tap_code16(LGUI(KC_V));
             break;
         case 2:
-            SEND_STRING(SS_LGUI("ac"));
+            SEND_STRING(SS_LGUI("av"));
             break;
     }
 }
@@ -110,6 +110,34 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_MUTE, KC_NO, KC_NO, RGB_TOG
     )
 };
+
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+    uint8_t layer = get_highest_layer(layer_state);
+    if (layer > 0 && layer >= led_min && layer < led_max) {
+        uint8_t index = layer;
+        if (index <= 3) {
+            index = 3 - index;
+        } else if (index > 7) {
+            index = 8 + (11 - index);
+        }
+        // Get the current color of the first LED
+        rgb_led_t rgb = rgb_matrix_get_color(index);
+        uint8_t r = rgb.r - 64;
+        uint8_t g = rgb.g + 64;
+        uint8_t b = rgb.b + 64;
+        if (rgb.r < 64) {
+            r = 0;
+        }
+        if (rgb.g > 191) {
+            g = 255;
+        }
+        if (rgb.b > 191) {
+            b = 255;
+        }
+        rgb_matrix_set_color(index, r, g, b);
+    }
+    return false;
+}
 
 #if defined(ENCODER_ENABLE) && defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {

@@ -156,6 +156,10 @@ void rgb_matrix_set_color_all(uint8_t red, uint8_t green, uint8_t blue) {
 #endif
 }
 
+rgb_led_t rgb_matrix_get_color(int index) {
+    return rgb_matrix_driver.get_color(index);
+}
+
 void process_rgb_matrix(uint8_t row, uint8_t col, bool pressed) {
 #ifndef RGB_MATRIX_SPLIT
     if (!is_keyboard_master()) return;

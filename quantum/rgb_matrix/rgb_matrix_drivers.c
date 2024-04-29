@@ -181,6 +181,10 @@ static inline void setled(int i, uint8_t r, uint8_t g, uint8_t b) {
 #    endif
 }
 
+static rgb_led_t getcolor(int i) {
+    return rgb_matrix_ws2812_array[i];
+}
+
 static void setled_all(uint8_t r, uint8_t g, uint8_t b) {
     for (int i = 0; i < ARRAY_SIZE(rgb_matrix_ws2812_array); i++) {
         setled(i, r, g, b);
@@ -192,6 +196,7 @@ const rgb_matrix_driver_t rgb_matrix_driver = {
     .flush         = flush,
     .set_color     = setled,
     .set_color_all = setled_all,
+    .get_color     = getcolor,
 };
 
 #endif

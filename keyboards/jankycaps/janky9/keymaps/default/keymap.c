@@ -26,7 +26,7 @@ enum keycodes {
 // 1st layer on the cycle
 #define LAYER_CYCLE_START 0
 // Last layer on the cycle
-#define LAYER_CYCLE_END 4
+#define LAYER_CYCLE_END 3
 
 // Add the behaviour of this new keycode
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -90,7 +90,7 @@ void paste_paste_all_finished(tap_dance_state_t *state, void *user_data) {
             tap_code16(LGUI(KC_V));
             break;
         case 2:
-            SEND_STRING(SS_LGUI("ac"));
+            SEND_STRING(SS_LGUI("av"));
             break;
     }
 }

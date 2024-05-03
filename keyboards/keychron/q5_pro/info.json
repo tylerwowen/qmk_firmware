@@ -23,8 +23,8 @@
     "rgb_matrix": {
         "driver": "snled27351",
         "animations": {
+            "gradient_up_down": true,
             "breathing": true,
-            "band_spiral_val": true,
             "cycle_all": true,
             "cycle_left_right": true,
             "cycle_up_down": true,

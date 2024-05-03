@@ -23,8 +23,8 @@
               "options": [
                 ["None", 0],
                 ["Solid Color", 1],
-                ["Breathing", 2],
-                ["Band Spiral Val", 3],
+                ["Gradient Up Down", 2],
+                ["Breathing", 3],
                 ["Cycle All", 4],
                 ["Cycle Left Right", 5],
                 ["Cycle Up Down", 6],

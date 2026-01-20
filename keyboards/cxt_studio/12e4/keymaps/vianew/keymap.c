@@ -1,0 +1,188 @@
+/* Copyright 2023 Brian McKenna
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#include QMK_KEYBOARD_H
+
+// Define the keycode, `QK_USER` avoids collisions with existing keycodes
+enum keycodes {
+    KC_CYCLE_LAYERS = QK_KB,
+    SS_COPY_ALL,
+    SS_PASTE_ALL,
+    KC_PAN_LEFT,
+    KC_PAN_RIGHT,
+    KC_PAN_UP,
+    KC_PAN_DOWN,
+    KC_ROTATE_LEFT,
+    KC_ROTATE_RIGHT,
+    KC_ROTATE_UP,
+    KC_ROTATE_DOWN
+};
+
+// 1st layer on the cycle
+#define LAYER_CYCLE_START 0
+// Last layer on the cycle
+#define LAYER_CYCLE_END 3
+
+// Add the behaviour of this new keycode
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case KC_CYCLE_LAYERS:
+            // Our logic will happen on presses, nothing is done on releases
+            if (!record->event.pressed) {
+                // We've already handled the keycode (doing nothing), let QMK know so no further code is run unnecessarily
+                return false;
+            }
+
+            uint8_t current_layer = get_highest_layer(layer_state);
+
+            // Check if we are within the range, if not quit
+            if (current_layer > LAYER_CYCLE_END || current_layer < LAYER_CYCLE_START) {
+                return false;
+            }
+
+            uint8_t next_layer = current_layer + 1;
+            if (next_layer > LAYER_CYCLE_END) {
+                next_layer = LAYER_CYCLE_START;
+            }
+            layer_move(next_layer);
+            return false;
+        case SS_COPY_ALL:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LGUI("ac"));
+            }
+            return false;
+        case SS_PASTE_ALL:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LGUI("av"));
+            }
+            return false;
+        case KC_PAN_LEFT:
+            register_code(QK_MOUSE_BUTTON_3);
+            tap_code(QK_MOUSE_CURSOR_LEFT);
+            unregister_code(QK_MOUSE_BUTTON_3);
+            return false;
+        case KC_PAN_RIGHT:
+            register_code(QK_MOUSE_BUTTON_3);
+            tap_code(QK_MOUSE_CURSOR_RIGHT);
+            unregister_code(QK_MOUSE_BUTTON_3);
+            return false;
+        case KC_PAN_UP:
+            register_code(QK_MOUSE_BUTTON_3);
+            tap_code(QK_MOUSE_CURSOR_UP);
+            unregister_code(QK_MOUSE_BUTTON_3);
+            return false;
+        case KC_PAN_DOWN:
+            register_code(QK_MOUSE_BUTTON_3);
+            tap_code(QK_MOUSE_CURSOR_DOWN);
+            unregister_code(QK_MOUSE_BUTTON_3);
+            return false;
+        case KC_ROTATE_LEFT:
+            register_code(QK_MOUSE_BUTTON_2);
+            tap_code(QK_MOUSE_CURSOR_LEFT);
+            unregister_code(QK_MOUSE_BUTTON_2);
+            return false;
+        case KC_ROTATE_RIGHT:
+            register_code(QK_MOUSE_BUTTON_2);
+            tap_code(QK_MOUSE_CURSOR_RIGHT);
+            unregister_code(QK_MOUSE_BUTTON_2);
+            return false;
+        case KC_ROTATE_UP:
+            register_code(QK_MOUSE_BUTTON_2);
+            tap_code(QK_MOUSE_CURSOR_UP);
+            unregister_code(QK_MOUSE_BUTTON_2);
+            return false;
+        case KC_ROTATE_DOWN:
+            register_code(QK_MOUSE_BUTTON_2);
+            tap_code(QK_MOUSE_CURSOR_DOWN);
+            unregister_code(QK_MOUSE_BUTTON_2);
+            return false;
+        // Process other keycodes normally
+        default:
+            return true;
+    }
+}
+
+// Tap Dance declarations
+enum {
+    TD_COPY_COPY_ALL,
+    TD_PASTE_PASTE_ALL,
+};
+
+void copy_copy_all_finished(tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            tap_code16(LGUI(KC_C));
+            break;
+        case 2:
+            SEND_STRING(SS_LGUI("ac"));
+            break;
+    }
+}
+
+void paste_paste_all_finished(tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            tap_code16(LGUI(KC_V));
+            break;
+        case 2:
+            SEND_STRING(SS_LGUI("av"));
+            break;
+    }
+}
+
+// Tap Dance definitions
+tap_dance_action_t tap_dance_actions[] = {
+    // Tap once for Escape, twice for Caps Lock
+    [TD_COPY_COPY_ALL]   = ACTION_TAP_DANCE_FN(copy_copy_all_finished),
+    [TD_PASTE_PASTE_ALL] = ACTION_TAP_DANCE_FN(paste_paste_all_finished)};
+
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+	[0] = LAYOUT(
+        KC_ESC, KC_F11, KC_NO, KC_MSTP,
+        KC_NO, KC_NO, KC_MRWD, KC_MFFD,
+        KC_NO, TD(TD_COPY_COPY_ALL), TD(TD_PASTE_PASTE_ALL), KC_MNXT,
+
+        KC_MUTE, KC_NO, KC_NO, RGB_TOG
+    )
+};
+
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+    uint8_t layer = get_highest_layer(layer_state);
+    if (layer > 0 && layer >= led_min && layer < led_max) {
+        uint8_t index = layer;
+        if (index <= 3) {
+            index = 3 - index;
+        } else if (index > 7) {
+            index = 8 + (11 - index);
+        }
+        // Get the current color of the first LED
+        uint8_t r = 0;
+        uint8_t g = 128;
+        uint8_t b = 255;
+        rgb_matrix_set_color(index, r, g, b);
+    }
+    return false;
+}
+
+#if defined(ENCODER_ENABLE) && defined(ENCODER_MAP_ENABLE)
+const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
+    [0] = {
+        ENCODER_CCW_CW(KC_VOLD, KC_VOLU),
+        ENCODER_CCW_CW(RGB_HUD, RGB_HUI),
+        ENCODER_CCW_CW(RGB_VAD, RGB_VAI),
+        ENCODER_CCW_CW(RGB_MODE_REVERSE, RGB_MODE_FORWARD)},
+};
+#endif // defined(ENCODER_ENABLE) && defined(ENCODER_MAP_ENABLE)

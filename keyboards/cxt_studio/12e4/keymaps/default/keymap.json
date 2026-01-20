@@ -4,10 +4,184 @@
     "layout": "LAYOUT",
     "layers": [
         [
-            "KC_ESC",  "KC_F11",  "KC_NO",   "KC_MSTP",
-            "KC_NO",   "KC_NO",   "KC_MRWD", "KC_MFFD",
-            "KC_NO",   "KC_MPLY", "KC_MPLY", "KC_MNXT",
-            "KC_MUTE", "KC_NO",   "KC_NO",   "RM_TOGG"
+            "KC_ESC",
+            "KC_F11",
+            "KC_NO",
+            "KC_MSTP",
+            "KC_NO",
+            "KC_NO",
+            "KC_MRWD",
+            "KC_MFFD",
+            "KC_NO",
+            "KC_MPLY",
+            "KC_MPLY",
+            "KC_MNXT",
+            "KC_MUTE",
+            "KC_NO",
+            "KC_NO",
+            "RM_TOGG"
+        ]
+    ],
+    "macros": [
+        [
+            {
+                "action": "down",
+                "keycodes": [
+                    "QK_MOUSE_BUTTON_3"
+                ]
+            },
+            {
+                "action": "tap",
+                "keycodes": [
+                    "MS_LEFT"
+                ]
+            },
+            {
+                "action": "up",
+                "keycodes": [
+                    "QK_MOUSE_BUTTON_3"
+                ]
+            }
+        ],
+        [
+            {
+                "action": "down",
+                "keycodes": [
+                    "QK_MOUSE_BUTTON_3"
+                ]
+            },
+            {
+                "action": "tap",
+                "keycodes": [
+                    "MS_RGHT"
+                ]
+            },
+            {
+                "action": "up",
+                "keycodes": [
+                    "QK_MOUSE_BUTTON_3"
+                ]
+            }
+        ],
+        [
+            {
+                "action": "down",
+                "keycodes": [
+                    "QK_MOUSE_BUTTON_3"
+                ]
+            },
+            {
+                "action": "tap",
+                "keycodes": [
+                    "MS_UP"
+                ]
+            },
+            {
+                "action": "up",
+                "keycodes": [
+                    "QK_MOUSE_BUTTON_3"
+                ]
+            }
+        ],
+        [
+            {
+                "action": "down",
+                "keycodes": [
+                    "QK_MOUSE_BUTTON_3"
+                ]
+            },
+            {
+                "action": "tap",
+                "keycodes": [
+                    "MS_DOWN"
+                ]
+            },
+            {
+                "action": "up",
+                "keycodes": [
+                    "QK_MOUSE_BUTTON_3"
+                ]
+            }
+        ],
+        [
+            {
+                "action": "down",
+                "keycodes": [
+                    "MS_BTN2"
+                ]
+            },
+            {
+                "action": "tap",
+                "keycodes": [
+                    "MS_LEFT"
+                ]
+            },
+            {
+                "action": "up",
+                "keycodes": [
+                    "MS_BTN2"
+                ]
+            }
+        ],
+        [
+            {
+                "action": "down",
+                "keycodes": [
+                    "MS_BTN2"
+                ]
+            },
+            {
+                "action": "tap",
+                "keycodes": [
+                    "MS_RGHT"
+                ]
+            },
+            {
+                "action": "up",
+                "keycodes": [
+                    "MS_BTN2"
+                ]
+            }
+        ],
+        [
+            {
+                "action": "down",
+                "keycodes": [
+                    "MS_BTN2"
+                ]
+            },
+            {
+                "action": "tap",
+                "keycodes": [
+                    "MS_UP"
+                ]
+            },
+            {
+                "action": "up",
+                "keycodes": [
+                    "MS_BTN2"
+                ]
+            }
+        ],
+        [
+            {
+                "action": "down",
+                "keycodes": [
+                    "MS_BTN2"
+                ]
+            },
+            {
+                "action": "tap",
+                "keycodes": [
+                    "MS_DOWN"
+                ]
+            },
+            {
+                "action": "up",
+                "keycodes": [
+                    "MS_BTN2"
+                ]
+            }
         ]
     ]
 }
